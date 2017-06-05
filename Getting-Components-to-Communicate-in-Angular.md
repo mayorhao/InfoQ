@@ -146,7 +146,9 @@
 最后，你可以在官方ngrx github仓库通读[ngrx文档](https://angular.io/docs/ts/latest/cookbook/component-communication.html)，或者在[这里](https://github.com/sergiocruz/ng-sample-comments/tree/ngrx)查看我使用ngrx编写的示例应用。
 
 ### 关于作者
-![图5](https://cdn.infoq.com/statics_s1_20170530-0600u1/resource/articles/angular-component-communication/en/resources/0F3A4898.jpg)**Sergio Cruz**是Code School的程序开发人员和讲师，他专注于关于JavaScript的一切。最近，他教授了Code School的React课程，[(开启React之路(Powering up With React)](https://www.codeschool.com/courses/powering-up-with-react)”。当他不在Code School敲代码时，你会发现他会在像ng-conf和OSCON这样的会议作关于JavaScript的演讲。
+![图5](https://cdn.infoq.com/statics_s1_20170530-0600u1/resource/articles/angular-component-communication/en/resources/0F3A4898.jpg)
+
+**Sergio Cruz**是Code School的程序开发人员和讲师，他专注于关于JavaScript的一切。最近，他教授了Code School的React课程，[(开启React之路(Powering up With React)](https://www.codeschool.com/courses/powering-up-with-react)”。当他不在Code School敲代码时，你会发现他会在ng-conf和OSCON这样的会议上作关于JavaScript的演讲。
 
 
 
