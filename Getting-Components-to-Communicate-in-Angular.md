@@ -7,14 +7,14 @@
 * 可以使用像ngrx的外部数据存储来组织大型应用
 
 组件是组成Angular应用的基石，在angular应用中，每个可见的元素都是由组件构成的。基于组件的架构的优势在于：很像JavaScript函数，如果一段代码变得过于复杂，或者承担过多的职责，那么你就可以把它拆分掉，这样每段代码都专注于一个功能。
-也就是说，当我们着手于把组件拆分为更小的组件时，我们需要保证这些组件能够来回的传递数据。即在我们的应用中，合理的组件通信非常必要，来确保所有数据保持同步。幸运的是，Angular已经为我们提供了实现这个功能的工具。
+也就是说，当我们着手于把组件拆分为更小的组件时，我们需要保证这些组件能够来回的传递数据。即在我们的应用中，合理的组件通信非常必要，通过它可以确保所有数据保持同步。幸运的是，Angular已经为我们提供了实现这个功能的工具。
 
 ![图片1](https://cdn.infoq.com/statics_s1_20170530-0600u1/resource/articles/angular-component-communication/en/resources/3Picture1.jpg)
 
 <sup>我们可以在AppComponent下构建我们整个应用，但是该组件会承担过多的功能职责，在基于组件的架构中，公认更好的做法是：将组件拆分，这样每个组件只承担一个职责，<sub>
 
 ### 向组件传递数据
-在Angular中，当父组件需要传递数据给子组件时，我们使用`@Input`，打个比方，我们正在开发一个应用程序来展示的页面上的评论。 AppComponent会负责把评论数组加载进来，我们会把每条评论的数据分发给评论组件。
+在Angular中，当父组件需要传递数据给子组件时，我们使用`@Input`，打个比方，我们正在开发一个应用程序来展示页面上的评论。 AppComponent会负责把评论数组加载进来，我们会把每条评论的数据分发给评论组件。
 通过`@Input`,子组件会接收一个评论参数，以下是整个组件的代码：
 
 ```javascript
@@ -53,7 +53,7 @@
 <sub>使用评论组件展示的评论列表<sub>
 
 ### 捕获子组件事件
-现在我们知道了如何向评论组件传递数据，但是要从列表中删掉一个组件，继而从列表中移除它时，我们该怎么做呢？这个做起来有些棘手，因为这个数据是存在于评论组件的父组件，即AppComponent中的。
+现在我们知道了如何向评论组件传递数据，但是要从列表中删掉一个组件，继而从列表中移除它时，我们该怎么做呢？这个做起来有些棘手，因为这个数据存在于评论组件的父组件，即AppComponent中。
 
 一个解决问题的办法是，使用`@Output`,它可以让子组件触发事件，这个事件可以由父组件利用`EventEmitter`来捕获。
 
@@ -109,11 +109,11 @@
 <sub>现在，我们可以删除评论了，感谢Angular的`@Output()`装饰器<sub>
 
 ### 另一种获取数据的方式
-到目前为止，我们只涉及到包括父/子层次结构的组件通信。虽然这可能满足你的大部分需求，但是随着应用程序规模的增长，继续通过父组件到子组件的模式来传递数据越来越难了。对于大型应用来说，使用“数据存储”(data store)来减少每个组件的工作量往往是有意义的。数据存储(data-stores)作为单个组件的中心数据仓库，当需要时可以被应用程序的某一部分调用。组件不再需要手动将数据传给子链(child-chain)，单个组件都可以订阅数据存储(data store)的一部分，以便只使用他们需要的数据，从而减少父元素和子组件对来回传递数据的麻烦。
+到目前为止，我们只涉及到包括父/子层次结构的组件通信。虽然这可能满足你的大部分需求，但是随着应用程序规模的增长，继续通过父组件到子组件的模式来传递数据越来越难了。对于大型应用来说，使用“数据存储”(data store)来减少每个组件的工作量往往是有意义的。数据存储(data-stores)作为单个组件的中心数据仓库，当需要时可以被应用程序的某一部分调用。组件不再需要手动将数据传给子链(child-chain)，单个组件都可以订阅数据存储(data store)的一部分，以便只使用他们需要的数据，从而减少父组件和子组件来回传递数据的麻烦。
 
-如果你熟悉React的话，这正是Redux在解决的问题。在Angular中，我们可以使用另一个库，受Redux启发，库的名字叫[ngrx](https://github.com/ngrx)。两个库之间几乎没有什么关键性的区别：类型和观察对象。ngrx库很大程度依赖于TypeScript的生态系统，它相比于react，有着更多公式化的代码(boilerplate)，但同时也使得调试和跟踪bug更为简单。
+如果你熟悉React的话，这正是Redux在解决的问题。在Angular中，我们可以使用另一个库，名字叫[ngrx](https://github.com/ngrx)，它受到Redux的启发。两个库之间几乎没有什么关键性的区别：类型和观察对象。ngrx库很大程度依赖于TypeScript的生态系统，它相比于react，有着更多公式化的代码(boilerplate)，但同时也使得调试和跟踪bug更为简单。
 
-当使用ngrx时，我们的状态(state)是一个不可变的数据结构。为了改变状态，我们可以调用名为actions的函数，反过来，这些actions，反过来，这些actions告诉由纯净函数(pure function)组成的reducer，状态的哪一部分应该改变。最后，我们的应用程序将具有下一个版本的状态，所有订阅它的组件将立即收到新的数据。当组件接收到新数据时，它们也会自动重新渲染，使渲染的视图始终与数据库(store)保持同步。
+当使用ngrx时，我们的状态(state)是一个不可变的数据结构。为了改变状态，我们可以调用名为actions的函数，反过来，这些actions告诉由纯净函数(pure function)组成的reducer，状态的哪一部分应该改变。最后，我们的应用程序将具有下一个版本的状态，所有订阅它的组件将立即收到新的数据。当组件接收到新数据时，它们也会自动重新渲染，使渲染的视图始终与数据库(store)保持同步。
 
 这对开发意味着什么？
 
@@ -146,7 +146,9 @@
 最后，你可以在官方ngrx github仓库通读[ngrx文档](https://angular.io/docs/ts/latest/cookbook/component-communication.html)，或者在[这里](https://github.com/sergiocruz/ng-sample-comments/tree/ngrx)查看我使用ngrx编写的示例应用。
 
 ### 关于作者
-![图5](https://cdn.infoq.com/statics_s1_20170530-0600u1/resource/articles/angular-component-communication/en/resources/0F3A4898.jpg)**Sergio Cruz**是Code School的程序开发人员和讲师，他专注于关于JavaScript的一切。最近，他教授了Code School的React课程，[(开启React之路(Powering up With React)](https://www.codeschool.com/courses/powering-up-with-react)”。当他不在Code School敲代码时，你会发现他会在像ng-conf和OSCON这样的会议作关于JavaScript的演讲。
+![图5](https://cdn.infoq.com/statics_s1_20170530-0600u1/resource/articles/angular-component-communication/en/resources/0F3A4898.jpg)
+
+**Sergio Cruz**是Code School的程序开发人员和讲师，他专注于关于JavaScript的一切。最近，他教授了Code School的React课程，[(开启React之路(Powering up With React)](https://www.codeschool.com/courses/powering-up-with-react)”。当他不在Code School敲代码时，你会发现他会在ng-conf和OSCON这样的会议上作关于JavaScript的演讲。
 
 
 
